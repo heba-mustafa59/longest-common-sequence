@@ -1,0 +1,50 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Scanner;
+
+public class Homework1 {  
+    //Heba Mustafa
+    public static LinkedList<Character> findLCS(LinkedList<Character> l1, LinkedList<Character> list2) {
+        int n1 = l1.size();
+        int n = list2.size();
+        int[][] arr = new int[n1 + 1][n + 1];
+        for (int i = 1; i <= n1; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (l1.get(i - 1).equals(list2.get(j - 1))) {
+                    arr[i][j] = arr[i - 1][j - 1] + 1;
+                } else {
+                    arr[i][j] = Math.max(arr[i - 1][j], arr[i][j - 1]);
+                }
+            }
+        }
+
+      
+        LinkedList<Character> answer = new LinkedList<>();
+        int i = n1, j = n;
+        while (i > 0 && j > 0) {
+            if (l1.get(i - 1).equals(list2.get(j - 1))) {
+                answer.addFirst(l1.get(i - 1)); 
+                i--; j--;
+            } else if (arr[i - 1][j] > arr[i][j - 1]) {
+                i--;
+            } else {
+                j--;
+            }
+        }
+        return answer;
+    }
+    public static void main(String[] args) {
+        LinkedList<Character> list1 = new LinkedList<>();
+        LinkedList<Character> list2 = new LinkedList<>();
+        list1.add('A'); list1.add('B'); list1.add('C'); list1.add('D'); list1.add('E'); 
+        list1.add('F'); list1.add('G'); list1.add('H'); list1.add('T'); list1.add('J');
+     
+        list2.add('W'); list2.add('X'); list2.add('A'); list2.add('B'); list2.add('C');
+        list2.add('D'); list2.add('E'); list2.add('F'); list2.add('Y'); list2.add('Z');
+        list2.add('H'); list2.add('G');
+
+        LinkedList<Character> fa = findLCS(list1, list2);
+
+        System.out.println("Longest Common Subsequence: " + fa);
+    }
+}
